@@ -8,30 +8,35 @@ import 'swiper/css/navigation'
 
 // import required modules
 import { Navigation } from 'swiper'
+
+import { reactive, onMounted } from 'vue'
+
+import { apiClientService } from '@/services/api.client'
+import UiTravelTime from '../ui/UiTravelTime.vue'
+import type { TravelTimeModel } from '@/model/travel-time.model'
+
+const state = reactive({
+  travelTimes: null as null | TravelTimeModel[],
+})
+
+onMounted(async () => {
+  state.travelTimes = await apiClientService.fetchTravelTime()
+})
 </script>
 
 <template>
-  <swiper :navigation="true" :modules="[Navigation]" class="mySwiper">
-    <swiper-slide>
-      <img
-        className="object-fill w-full h-96"
-        src="https://cdn.pixabay.com/photo/2022/03/20/15/40/nature-7081138__340.jpg"
-        alt="image slide 1"
-      />
-    </swiper-slide>
-    <swiper-slide>
-      <img
-        className="object-fill w-full h-96"
-        src="https://cdn.pixabay.com/photo/2022/07/24/17/55/wind-energy-7342177__340.jpg"
-        alt="image slide 2"
-      />
-    </swiper-slide>
-    <swiper-slide>
-      <img
-        className="object-fill w-full h-96"
-        src="https://cdn.pixabay.com/photo/2022/07/26/03/35/jogger-7344979__340.jpg"
-        alt="image slide 3"
-      />
-    </swiper-slide>
+  <swiper :navigation="true" :modules="[Navigation]">
+    <template v-for="(travelTime, index) in state.travelTimes" :key="index">
+      <swiper-slide>
+        <UiTravelTime
+          class="flex-none"
+          :newDuration="travelTime.new"
+          :oldDuration="travelTime.old"
+          :lineNumber="travelTime.line"
+          :startStation="travelTime.start"
+          :endStation="travelTime.end"
+        ></UiTravelTime>
+      </swiper-slide>
+    </template>
   </swiper>
 </template>
