@@ -14,6 +14,7 @@ import UiButton from '@/components/ui/UiButton.vue'
       <a
         role="button"
         class="flex items-center pt-0 pr-0 pb-1 pl-0 gap-2 w-4 h-5"
+        @click="$emit('close-modal')"
       >
         <img class="w-4 h-4" :src="deleteSquare" />
       </a>
@@ -26,6 +27,7 @@ import UiButton from '@/components/ui/UiButton.vue'
       class="ui-btn-regular-size ui-btn-primary"
       :disabled="false"
       :active="true"
+      @click="$emit('close-modal')"
     >
       Fermer
     </UiButton>

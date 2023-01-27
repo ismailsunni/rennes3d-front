@@ -4,7 +4,7 @@ import { computed } from 'vue'
 const props = defineProps({
   url: {
     type: String,
-    required: true,
+    required: false,
   },
   textColor: {
     type: String,
